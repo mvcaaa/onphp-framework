@@ -77,6 +77,9 @@
 		
 		public function obtainSequence($sequence)
 		{
+			if(UuidUtils::isUuidSequence($sequence))
+				return UuidUtils::make();
+
 			$res = $this->queryRaw("select nextval('{$sequence}') as seq");
 			$row = pg_fetch_assoc($res);
 			pg_free_result($res);
