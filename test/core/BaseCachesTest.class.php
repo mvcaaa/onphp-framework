@@ -5,7 +5,7 @@
 		public static function cacheProvider()
 		{
 			return array(
-//				array(Memcached::create()),
+//				array(SocketMemcached::create()),
 //				array(SharedMemory::create()),
 //				array(PeclMemcached::create()),
 				array(RuntimeMemory::create()),
