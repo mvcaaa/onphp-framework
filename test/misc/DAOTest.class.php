@@ -184,6 +184,7 @@
 			$this->assertNull($empty->getCity());
 			$this->assertNull($empty->getCityOptional());
 			$this->assertNull($empty->getEnum());
+			$this->assertNull($empty->getStaticEnum());
 			
 			$this->drop();
 		}
@@ -959,6 +960,8 @@
 					setCityOptional($city)->
 					setEnum(
 						new ImageType(ImageType::getAnyId())
+					)->setStaticEnum(
+						new MimeType(MimeType::getAnyId())
 					)
 			);
 			
