@@ -12,7 +12,7 @@
 	/**
 	 * Parent of all enumeration classes.
 	 *
-	 * @see AccessMode for example
+	 * @see MimeType for example
 	 *
 	 * @ingroup Base
 	 * @ingroup Module
@@ -33,69 +33,17 @@
 			return new $className($id);
 		}
 
-		final public function __construct($id)
+		public function __construct($id)
 		{
-			$this->setId($id);
-		}
-
-		/// prevent's serialization of names' array
-		//@{
-		public function serialize()
-		{
-			return (string) $this->id;
-		}
-
-		public function unserialize($serialized)
-		{
-			$this->setId($serialized);
-		}
-		//@}
-
-		public static function getList()
-		{
-			return static::$names;
+			$this->setInternalId($id);
 		}
 
 		/**
-		 * must return any existent ID
-		 * 1 should be ok for most enumerations
-		**/
-		public static function getAnyId()
-		{
-			return 1;
-		}
-
-		/// parent's getId() is too complex in our case
-		public function getId()
-		{
-			return $this->id;
-		}
-
-		public static function getObjectList()
-		{
-			$list = array();
-			$names = static::$names;
-
-			foreach (array_keys($names) as $id)
-				$list[] = static::create($id);
-
-			return $list;
-		}
-
-		public function toString()
-		{
-			return $this->name;
-		}
-
-		public static function getNameList()
-		{
-			return static::$names;
-		}
-
-		/**
+		 * @param $id
 		 * @return Enum
-		**/
-		public function setId($id)
+		 * @throws MissingElementException
+		 */
+		protected function setInternalId($id)
 		{
 			$names = static::$names;
 
@@ -108,6 +56,92 @@
 				);
 
 			return $this;
+		}
+
+		/**
+		 * @return string
+		 */
+		public function serialize()
+		{
+			return (string) $this->id;
+		}
+
+		/**
+		 * @param $serialized
+		 */
+		public function unserialize($serialized)
+		{
+			$this->setInternalId($serialized);
+		}
+
+		/**
+		 * Array of object
+		 * @static
+		 * @return array
+		 */
+		public static function getList()
+		{
+			$list = array();
+			foreach (array_keys(static::$names) as $id)
+				$list[] = static::create($id);
+
+			return $list;
+		}
+
+		/**
+		 * must return any existent ID
+		 * 1 should be ok for most enumerations
+		 * @return integer
+		**/
+		public static function getAnyId()
+		{
+			return 1;
+		}
+
+		/**
+		 * @return null|integer
+		 */
+		public function getId()
+		{
+			return $this->id;
+		}
+
+
+		/**
+		 * Alias for getList()
+		 * @static
+		 * @deprecated
+		 * @return array
+		 */
+		public static function getObjectList()
+		{
+			return static::getList();
+		}
+
+		/**
+		 * @return string
+		 */
+		public function toString()
+		{
+			return $this->name;
+		}
+
+		/**
+		 * Plain list
+		 * @static
+		 * @return array
+		 */
+		public static function getNameList()
+		{
+			return static::$names;
+		}
+
+		/**
+		 * @return Enum
+		**/
+		public function setId($id)
+		{
+			throw new UnsupportedMethodException('You can not change id here, because it is politics for Enum!');
 		}
 	}
 ?>

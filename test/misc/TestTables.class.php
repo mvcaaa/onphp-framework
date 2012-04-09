@@ -47,6 +47,13 @@
 		public function create()
 		{
 			$pool = DBTestPool::me()->getPool();
+
+			//If tables exist?
+			try{
+				$this->drop();
+			} catch(DatabaseException $e){
+				// ok ;)
+			}
 			
 			foreach ($pool as $name => $db) {
 				foreach ($this->schema->getTables() as $name => $table) {

@@ -393,8 +393,8 @@
 			return new PrimitiveUuidIdentifierList($name);
 		}
 
-		/*
-	 	* @return PrimitiveEnum
+		/**
+		 * @return PrimitiveEnumByValue
 		**/
 		public static function enum($name)
 		{
